@@ -1,0 +1,31 @@
+records = []
+
+while True:
+    print("\n---- SAMAS Farm Monitoring ----")
+    print("1. Add Daily Farm Record")
+    print("2. View All Records")
+    print("3. Exit")
+
+    choice = input("Enter choice: ")
+
+    if choice == "1":
+        date = input("Enter date: ")
+        crop = input("Enter crop name: ")
+        moisture = float(input("Enter soil moisture: "))
+        temperature = float(input("Enter temperature: "))
+
+        record = [date, crop, moisture, temperature]
+        records.append(record)
+        print("Record added successfully!")
+
+    elif choice == "2":
+        print("\n--- All Farm Records ---")
+        for r in records:
+            print(r)
+
+    elif choice == "3":
+        print("Exiting system...")
+        break
+
+    else:
+        print("Invalid choice! Try again.")
