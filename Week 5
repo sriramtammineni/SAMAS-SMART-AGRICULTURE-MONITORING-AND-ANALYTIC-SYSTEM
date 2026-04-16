@@ -1,0 +1,144 @@
+# Dictionary-Based Farm Monitoring System
+
+farm_records = []
+unique_crops = set()
+activity_logs = []
+
+# Create new farm record
+def add_record():
+    date = input("Enter date (YYYY-MM-DD): ")
+    crop = input("Enter crop name: ")
+    moisture = float(input("Enter soil moisture (%): "))
+    temperature = float(input("Enter temperature (°C): "))
+    rainfall = float(input("Enter rainfall (mm): "))
+    fertilizer = input("Enter fertilizer used: ")
+    irrigation = float(input("Enter irrigation amount (liters): "))
+
+    record = {
+        "date": date,
+        "crop": crop,
+        "moisture": moisture,
+        "temperature": temperature,
+        "rainfall": rainfall,
+        "fertilizer": fertilizer,
+        "irrigation": irrigation
+    }
+
+    farm_records.append(record)
+    unique_crops.add(crop)
+    activity_logs.append(("ADD", date, crop))
+
+    print("Record added successfully!\n")
+
+
+# View all records
+def view_records():
+    if not farm_records:
+        print("No records found.\n")
+        return
+
+    for i, record in enumerate(farm_records):
+        print(f"\nRecord ID: {i}")
+        for key, value in record.items():
+            print(f"{key.capitalize()}: {value}")
+
+
+# Update a record
+def update_record():
+    view_records()
+    index = int(input("\nEnter record ID to update: "))
+
+    if 0 <= index < len(farm_records):
+        record = farm_records[index]
+
+        print("Leave blank to keep existing value.")
+
+        crop = input(f"Crop ({record['crop']}): ")
+        if crop:
+            record["crop"] = crop
+            unique_crops.add(crop)
+
+        moisture = input(f"Soil Moisture ({record['moisture']}): ")
+        if moisture:
+            record["moisture"] = float(moisture)
+
+        temperature = input(f"Temperature ({record['temperature']}): ")
+        if temperature:
+            record["temperature"] = float(temperature)
+
+        rainfall = input(f"Rainfall ({record['rainfall']}): ")
+        if rainfall:
+            record["rainfall"] = float(rainfall)
+
+        fertilizer = input(f"Fertilizer ({record['fertilizer']}): ")
+        if fertilizer:
+            record["fertilizer"] = fertilizer
+
+        irrigation = input(f"Irrigation ({record['irrigation']}): ")
+        if irrigation:
+            record["irrigation"] = float(irrigation)
+
+        activity_logs.append(("UPDATE", record["date"], record["crop"]))
+
+        print("Record updated successfully!\n")
+    else:
+        print("Invalid record ID.\n")
+
+
+# Delete a record
+def delete_record():
+    view_records()
+    index = int(input("\nEnter record ID to delete: "))
+
+    if 0 <= index < len(farm_records):
+        record = farm_records.pop(index)
+        activity_logs.append(("DELETE", record["date"], record["crop"]))
+        print("Record deleted successfully!\n")
+    else:
+        print("Invalid record ID.\n")
+
+
+# View unique crops
+def view_unique_crops():
+    print("\nUnique Crops Monitored:")
+    for crop in unique_crops:
+        print("-", crop)
+
+
+# View activity logs
+def view_logs():
+    print("\nActivity Logs:")
+    for log in activity_logs:
+        print(log)
+
+
+# Main menu
+while True:
+    print("\n=== Farm Monitoring System ===")
+    print("1. Add Record")
+    print("2. View Records")
+    print("3. Update Record")
+    print("4. Delete Record")
+    print("5. View Unique Crops")
+    print("6. View Activity Logs")
+    print("7. Exit")
+
+    choice = input("Enter choice: ")
+
+    if choice == "1":
+        add_record()
+    elif choice == "2":
+        view_records()
+    elif choice == "3":
+        update_record()
+    elif choice == "4":
+        delete_record()
+    elif choice == "5":
+        view_unique_crops()
+    elif choice == "6":
+        view_logs()
+    elif choice == "7":
+        print("Exiting system...")
+        break
+    else:
+        print("Invalid choice. Try again.")
