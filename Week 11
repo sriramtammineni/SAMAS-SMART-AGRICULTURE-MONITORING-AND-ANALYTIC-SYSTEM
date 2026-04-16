@@ -1,0 +1,26 @@
+# utils/validators.py
+
+from datetime import datetime
+
+def validate_date(date_str):
+    try:
+        datetime.strptime(date_str, "%Y-%m-%d")
+        return True
+    except ValueError:
+        raise ValueError("Invalid date format! Use YYYY-MM-DD")
+
+
+def validate_positive(value, field_name):
+    try:
+        val = float(value)
+        if val < 0:
+            raise ValueError(f"{field_name} cannot be negative")
+        return val
+    except ValueError:
+        raise ValueError(f"Invalid {field_name}")
+
+
+def validate_string(value, field_name):
+    if not value.strip():
+        raise ValueError(f"{field_name} cannot be empty")
+    return value.strip()
