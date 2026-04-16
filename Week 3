@@ -1,0 +1,41 @@
+records = []
+
+while True:
+    print("\n---- SAMAS Farm System ----")
+    print("1. Add Record")
+    print("2. View All Records")
+    print("3. Search by Date")
+    print("4. Exit")
+
+    choice = input("Enter choice: ")
+
+    if choice == "1":
+        date = input("Enter date: ").strip()
+        crop = input("Enter crop name: ").strip().title()
+        moisture = float(input("Enter soil moisture: "))
+        temperature = float(input("Enter temperature: "))
+
+        records.append([date, crop, moisture, temperature])
+        print("Record added!")
+
+    elif choice == "2":
+        print("\nDate        Crop       Moisture   Temp")
+        print("------------------------------------------")
+        for r in records:
+            print(f"{r[0]:<12}{r[1]:<10}{r[2]:<10}{r[3]}")
+
+    elif choice == "3":
+        search_date = input("Enter date to search: ").strip()
+        found = False
+        for r in records:
+            if r[0] == search_date:
+                print(f"Found: {r}")
+                found = True
+        if not found:
+            print("No record found.")
+
+    elif choice == "4":
+        break
+
+    else:
+        print("Invalid choice!")
