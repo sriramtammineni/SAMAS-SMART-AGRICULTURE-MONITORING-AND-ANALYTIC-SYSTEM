@@ -1,0 +1,78 @@
+records = []
+
+def validate_moisture(value):
+    return value >= 0
+
+def validate_temperature(value):
+    return -10 <= value <= 60
+
+def add_record():
+    date = input("Enter date: ").strip()
+    crop = input("Enter crop name: ").strip().title()
+
+    moisture = float(input("Enter soil moisture: "))
+    if not validate_moisture(moisture):
+        print("Invalid moisture value!")
+        return
+
+    temperature = float(input("Enter temperature: "))
+    if not validate_temperature(temperature):
+        print("Invalid temperature value!")
+        return
+
+    records.append([date, crop, moisture, temperature])
+    print("Record added successfully!")
+
+def view_records():
+    if not records:
+        print("No records available.")
+        return
+
+    print("\nDate        Crop       Moisture   Temp")
+    print("------------------------------------------")
+    for r in records:
+        print(f"{r[0]:<12}{r[1]:<10}{r[2]:<10}{r[3]}")
+
+def search_record():
+    search_date = input("Enter date to search: ").strip()
+    for r in records:
+        if r[0] == search_date:
+            print("Record Found:", r)
+            return
+    print("No record found.")
+
+def update_record():
+    search_date = input("Enter date to update: ").strip()
+    for r in records:
+        if r[0] == search_date:
+            r[2] = float(input("Enter new moisture: "))
+            r[3] = float(input("Enter new temperature: "))
+            print("Record updated!")
+            return
+    print("Record not found.")
+
+def main():
+    while True:
+        print("\n---- SAMAS Modular System ----")
+        print("1. Add Record")
+        print("2. View Records")
+        print("3. Search Record")
+        print("4. Update Record")
+        print("5. Exit")
+
+        choice = input("Enter choice: ")
+
+        if choice == "1":
+            add_record()
+        elif choice == "2":
+            view_records()
+        elif choice == "3":
+            search_record()
+        elif choice == "4":
+            update_record()
+        elif choice == "5":
+            break
+        else:
+            print("Invalid choice!")
+
+main()
