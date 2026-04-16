@@ -1,0 +1,25 @@
+import pandas as pd
+from utils.file_handler import load_data, save_data
+
+def add_record(record: dict):
+    df = load_data()
+    df = pd.concat([df, pd.DataFrame([record])], ignore_index=True)
+    save_data(df)
+    print("Record added successfully!")
+
+
+def view_records():
+    df = load_data()
+    print(df)
+
+
+def search_by_date(date):
+    df = load_data()
+    result = df[df["date"] == date]
+    print(result)
+
+
+def search_by_crop(crop):
+    df = load_data()
+    result = df[df["crop"].str.lower() == crop.lower()]
+    print(result)
