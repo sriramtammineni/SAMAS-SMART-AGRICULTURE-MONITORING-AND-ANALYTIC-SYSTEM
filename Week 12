@@ -1,0 +1,49 @@
+# utils/charts.py
+
+import matplotlib.pyplot as plt
+from utils.file_handler import load_data
+
+def moisture_chart():
+    df = load_data()
+
+    plt.plot(df["date"], df["moisture"], marker='o')
+    plt.title("Soil Moisture Trend")
+    plt.xlabel("Date")
+    plt.ylabel("Moisture")
+    plt.xticks(rotation=45)
+    plt.tight_layout()
+    plt.show()
+
+
+def temperature_chart():
+    df = load_data()
+
+    plt.plot(df["date"], df["temperature"], color='red')
+    plt.title("Temperature Trend")
+    plt.xlabel("Date")
+    plt.ylabel("Temperature")
+    plt.xticks(rotation=45)
+    plt.tight_layout()
+    plt.show()
+
+
+def irrigation_chart():
+    df = load_data()
+
+    plt.bar(df["date"], df["irrigation"])
+    plt.title("Irrigation Usage")
+    plt.xlabel("Date")
+    plt.ylabel("Liters")
+    plt.xticks(rotation=45)
+    plt.tight_layout()
+    plt.show()
+
+
+def fertilizer_pie():
+    df = load_data()
+
+    fert_counts = df["fertilizer"].value_counts()
+
+    plt.pie(fert_counts, labels=fert_counts.index, autopct='%1.1f%%')
+    plt.title("Fertilizer Usage Distribution")
+    plt.show()
