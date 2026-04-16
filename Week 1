@@ -1,0 +1,22 @@
+print("---- SAMAS: Basic Farm Data Entry ----")
+
+date = input("Enter date (DD-MM-YYYY): ")
+crop = input("Enter crop name: ")
+
+# Soil moisture validation
+moisture = float(input("Enter soil moisture (%): "))
+while moisture < 0:
+    print("Moisture cannot be negative!")
+    moisture = float(input("Enter soil moisture again (%): "))
+
+# Temperature validation
+temperature = float(input("Enter temperature (°C): "))
+while temperature < -10 or temperature > 60:
+    print("Temperature seems unrealistic!")
+    temperature = float(input("Enter temperature again (°C): "))
+
+print("\n--- Farm Record Summary ---")
+print(f"Date        : {date}")
+print(f"Crop        : {crop.title()}")
+print(f"Soil Moisture: {moisture:.2f}%")
+print(f"Temperature : {temperature:.2f}°C")
