@@ -1,0 +1,80 @@
+from samas import run_app                                                                                                                                                                                                                                                DATA_FILE = "data/farm_logs.csv"
+
+THRESHOLDS = {
+    "moisture_low": 30,
+    "temperature_high": 35,
+    "humidity_low": 40,
+    "ph_min": 5.5,
+    "ph_max": 8.0
+}
+
+APP_NAME = "Smart Agriculture Monitoring & Analytics System (SAMAS)"
+VERSION = "1.0"                                                                                                                                                                                                                                """
+Simple in-memory storage (session-like system)
+"""
+
+farm_session = []
+
+
+def add_record_session(record):
+    farm_session.append(record)
+
+
+def get_all_session():
+    return farm_session
+
+
+def clear_session():
+    farm_session.clear()                                                                                                                                                                                                                                  from services.agri_service import add_record, view_records
+from utils.stats import basic_stats, stress_days
+from utils.charts import moisture_chart, temperature_chart
+from samas.config import APP_NAME, VERSION
+
+
+def run_app():
+    while True:
+        print("\n" + "=" * 50)
+        print(f"{APP_NAME}")
+        print(f"Version: {VERSION}")
+        print("=" * 50)
+
+        print("\n1. Add Farm Record")
+        print("2. View Records")
+        print("3. Analytics")
+        print("4. Stress Analysis")
+        print("5. Charts")
+        print("6. Exit")
+
+        choice = input("\nEnter choice: ")
+
+        if choice == "1":
+            print("\nUse main.py input system for full entry")
+            print("Or integrate input function here.")
+
+        elif choice == "2":
+            view_records()
+
+        elif choice == "3":
+            basic_stats()
+
+        elif choice == "4":
+            stress_days()
+
+        elif choice == "5":
+            print("\n1. Moisture Chart")
+            print("2. Temperature Chart")
+            c = input("Choose chart: ")
+
+            if c == "1":
+                moisture_chart()
+            elif c == "2":
+                temperature_chart()
+            else:
+                print("Invalid choice")
+
+        elif choice == "6":
+            print("Exiting SAMAS...")
+            break
+
+        else:
+            print("Invalid option")
