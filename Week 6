@@ -1,0 +1,233 @@
+
+class Crop:
+    def __init__(self, name, variety, field, height=0.0, stage="Seedling"):
+        self.name = name
+        self.variety = variety
+        self.field = field
+        self.height = height
+        self.stage = stage
+
+    def update_height(self, new_height):
+        self.height = new_height
+
+    def update_stage(self, new_stage):
+        self.stage = new_stage
+
+    def to_dict(self):
+        return {
+            "name": self.name,
+            "variety": self.variety,
+            "field": self.field,
+            "height": self.height,
+            "stage": self.stage
+        }
+
+    def __str__(self):
+        return f"{self.name} ({self.variety}) | Field: {self.field} | Height: {self.height} cm | Stage: {self.stage}"
+
+
+# -------------------------------
+# Soil Class
+# -------------------------------
+class Soil:
+    def __init__(self, moisture=0.0, ph=7.0):
+        self.moisture = moisture
+        self.ph = ph
+
+    def update_moisture(self, new_moisture):
+        self.moisture = new_moisture
+
+    def update_ph(self, new_ph):
+        self.ph = new_ph
+
+    def to_dict(self):
+        return {
+            "moisture": self.moisture,
+            "ph": self.ph
+        }
+
+    def __str__(self):
+        return f"Soil -> Moisture: {self.moisture}% | pH: {self.ph}"
+
+
+# -------------------------------
+# Environment Class
+# -------------------------------
+class Environment:
+    def __init__(self, temperature=25.0, humidity=50.0, rainfall_index=0.0):
+        self.temperature = temperature
+        self.humidity = humidity
+        self.rainfall_index = rainfall_index
+
+    def update_environment(self, temperature=None, humidity=None, rainfall_index=None):
+        if temperature is not None:
+            self.temperature = temperature
+        if humidity is not None:
+            self.humidity = humidity
+        if rainfall_index is not None:
+            self.rainfall_index = rainfall_index
+
+    def to_dict(self):
+        return {
+            "temperature": self.temperature,
+            "humidity": self.humidity,
+            "rainfall_index": self.rainfall_index
+        }
+
+    def __str__(self):
+        return f"Environment -> Temp: {self.temperature}°C | Humidity: {self.humidity}% | Rainfall Index: {self.rainfall_index}"
+
+
+# -------------------------------
+# Database Lists (Storage)
+# -------------------------------
+crops = []
+soil_data = Soil()
+environment_data = Environment()
+
+
+# -------------------------------
+# CRUD FUNCTIONS
+# -------------------------------
+
+# Create Crop
+def add_crop():
+    name = input("Enter crop name: ")
+    variety = input("Enter variety: ")
+    field = input("Enter field name: ")
+    height = float(input("Enter crop height (cm): "))
+    stage = input("Enter growth stage: ")
+
+    crop = Crop(name, variety, field, height, stage)
+    crops.append(crop)
+
+    print("Crop added successfully!\n")
+
+
+# Read Crops
+def view_crops():
+    if not crops:
+        print("No crops available.\n")
+        return
+
+    for i, crop in enumerate(crops):
+        print(i + 1, crop)
+    print()
+
+
+# Update Crop
+def update_crop():
+    view_crops()
+    index = int(input("Select crop number to update: ")) - 1
+
+    if 0 <= index < len(crops):
+        new_height = float(input("Enter new height: "))
+        new_stage = input("Enter new stage: ")
+
+        crops[index].update_height(new_height)
+        crops[index].update_stage(new_stage)
+
+        print("Crop updated successfully!\n")
+    else:
+        print("Invalid selection\n")
+
+
+# Delete Crop
+def delete_crop():
+    view_crops()
+    index = int(input("Select crop number to delete: ")) - 1
+
+    if 0 <= index < len(crops):
+        crops.pop(index)
+        print("Crop deleted successfully!\n")
+    else:
+        print("Invalid selection\n")
+
+
+# Update Soil
+def update_soil():
+    moisture = float(input("Enter soil moisture (%): "))
+    ph = float(input("Enter soil pH: "))
+
+    soil_data.update_moisture(moisture)
+    soil_data.update_ph(ph)
+
+    print("Soil data updated!\n")
+
+
+# Update Environment
+def update_environment():
+    temperature = float(input("Enter temperature (°C): "))
+    humidity = float(input("Enter humidity (%): "))
+    rainfall = float(input("Enter rainfall index: "))
+
+    environment_data.update_environment(temperature, humidity, rainfall)
+
+    print("Environment data updated!\n")
+
+
+# View All Data
+def view_all_data():
+    print("\n------ SAMAS DATA ------")
+
+    print("\nCrops:")
+    view_crops()
+
+    print("Soil Data:")
+    print(soil_data)
+
+    print("\nEnvironment Data:")
+    print(environment_data)
+
+    print("------------------------\n")
+
+
+# -------------------------------
+# MAIN MENU
+# -------------------------------
+def main():
+    while True:
+        print("===== SAMAS MENU =====")
+        print("1. Add Crop")
+        print("2. View Crops")
+        print("3. Update Crop")
+        print("4. Delete Crop")
+        print("5. Update Soil Data")
+        print("6. Update Environment Data")
+        print("7. View All Data")
+        print("8. Exit")
+
+        choice = input("Enter choice: ")
+
+        if choice == "1":
+            add_crop()
+
+        elif choice == "2":
+            view_crops()
+
+        elif choice == "3":
+            update_crop()
+
+        elif choice == "4":
+            delete_crop()
+
+        elif choice == "5":
+            update_soil()
+
+        elif choice == "6":
+            update_environment()
+
+        elif choice == "7":
+            view_all_data()
+
+        elif choice == "8":
+            print("Exiting SAMAS system...")
+            break
+
+        else:
+            print("Invalid choice\n")
+
+
+# Run Program
+if __name__ == "__main__":
+    main()
