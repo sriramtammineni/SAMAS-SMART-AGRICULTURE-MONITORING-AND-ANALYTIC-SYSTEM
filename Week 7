@@ -1,0 +1,228 @@
+
+from datetime import datetime
+
+
+# --------------------------------
+# Base Class: Record
+# --------------------------------
+class Record:
+
+    def __init__(self):
+        self._date = datetime.now().date()       # protected attribute
+        self.__timestamp = datetime.now()        # private attribute
+
+    # Getter methods
+    def get_date(self):
+        return self._date
+
+    def get_timestamp(self):
+        return self.__timestamp
+
+    # Method that can be overridden
+    def show_record_info(self):
+        return f"Date: {self._date} | Timestamp: {self.__timestamp}"
+
+
+# --------------------------------
+# Crop Class (Encapsulation)
+# --------------------------------
+class Crop:
+
+    def __init__(self, name, variety, field, height, stage):
+        self.__name = name
+        self.__variety = variety
+        self.__field = field
+        self.__height = height
+        self.__stage = stage
+
+    # Getter methods
+    def get_name(self):
+        return self.__name
+
+    def get_variety(self):
+        return self.__variety
+
+    def get_field(self):
+        return self.__field
+
+    def get_height(self):
+        return self.__height
+
+    def get_stage(self):
+        return self.__stage
+
+    # Setter methods
+    def update_height(self, height):
+        self.__height = height
+
+    def update_stage(self, stage):
+        self.__stage = stage
+
+    def __str__(self):
+        return f"{self.__name} ({self.__variety}) | Field: {self.__field} | Height: {self.__height}cm | Stage: {self.__stage}"
+
+    def to_dict(self):
+        return {
+            "name": self.__name,
+            "variety": self.__variety,
+            "field": self.__field,
+            "height": self.__height,
+            "stage": self.__stage
+        }
+
+
+# --------------------------------
+# Soil Class (Encapsulation)
+# --------------------------------
+class Soil:
+
+    def __init__(self, moisture, ph):
+        self.__moisture = moisture
+        self.__ph = ph
+
+    def get_moisture(self):
+        return self.__moisture
+
+    def get_ph(self):
+        return self.__ph
+
+    def update_moisture(self, moisture):
+        self.__moisture = moisture
+
+    def update_ph(self, ph):
+        self.__ph = ph
+
+    def __str__(self):
+        return f"Soil Moisture: {self.__moisture}% | pH: {self.__ph}"
+
+    def to_dict(self):
+        return {
+            "moisture": self.__moisture,
+            "ph": self.__ph
+        }
+
+
+# --------------------------------
+# Environment Class (Encapsulation)
+# --------------------------------
+class Environment:
+
+    def __init__(self, temperature, humidity, rainfall_index):
+        self.__temperature = temperature
+        self.__humidity = humidity
+        self.__rainfall_index = rainfall_index
+
+    def get_temperature(self):
+        return self.__temperature
+
+    def get_humidity(self):
+        return self.__humidity
+
+    def get_rainfall_index(self):
+        return self.__rainfall_index
+
+    def update_environment(self, temperature, humidity, rainfall):
+        self.__temperature = temperature
+        self.__humidity = humidity
+        self.__rainfall_index = rainfall
+
+    def __str__(self):
+        return f"Temp: {self.__temperature}°C | Humidity: {self.__humidity}% | Rainfall Index: {self.__rainfall_index}"
+
+    def to_dict(self):
+        return {
+            "temperature": self.__temperature,
+            "humidity": self.__humidity,
+            "rainfall_index": self.__rainfall_index
+        }
+
+
+# --------------------------------
+# Child Class: FarmLog (Inheritance)
+# --------------------------------
+class FarmLog(Record):
+
+    def __init__(self, crop, soil, environment):
+        super().__init__()  # inherit from Record
+        self.crop = crop
+        self.soil = soil
+        self.environment = environment
+
+    # Method overriding
+    def show_record_info(self):
+
+        base = super().show_record_info()
+
+        return f"""
+===== FARM LOG =====
+{base}
+
+Crop Information:
+{self.crop}
+
+Soil Information:
+{self.soil}
+
+Environment Information:
+{self.environment}
+=====================
+"""
+
+    def to_dict(self):
+
+        data = {
+            "date": self.get_date(),
+            "timestamp": self.get_timestamp()
+        }
+
+        data.update(self.crop.to_dict())
+        data.update(self.soil.to_dict())
+        data.update(self.environment.to_dict())
+
+        return data
+
+
+# --------------------------------
+# Main Program
+# --------------------------------
+def main():
+
+    print("SMART AGRICULTURE MONITORING & ANALYTICS SYSTEM (SAMAS)")
+    print("------ Create Farm Log ------")
+
+    # Crop input
+    name = input("Enter crop name: ")
+    variety = input("Enter crop variety: ")
+    field = input("Enter field name: ")
+    height = float(input("Enter crop height (cm): "))
+    stage = input("Enter crop stage: ")
+
+    crop = Crop(name, variety, field, height, stage)
+
+    # Soil input
+    moisture = float(input("Enter soil moisture (%): "))
+    ph = float(input("Enter soil pH: "))
+
+    soil = Soil(moisture, ph)
+
+    # Environment input
+    temp = float(input("Enter temperature (°C): "))
+    humidity = float(input("Enter humidity (%): "))
+    rain = float(input("Enter rainfall index: "))
+
+    env = Environment(temp, humidity, rain)
+
+    # Create Farm Log
+    log = FarmLog(crop, soil, env)
+
+    # Display Log
+    print(log.show_record_info())
+
+    # Show dictionary output
+    print("Dictionary Data Output:")
+    print(log.to_dict())
+
+
+# Run program
+if __name__ == "__main__":
+    main()
