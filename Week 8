@@ -1,0 +1,35 @@
+# utils/file_handler.py
+
+import os
+import pandas as pd
+
+FILE_PATH = "data/farm_logs.csv"
+
+def ensure_file():
+    """Create CSV file if it does not exist"""
+    if not os.path.exists(FILE_PATH):
+        df = pd.DataFrame(columns=[
+            "date", "crop", "stage", "height",
+            "moisture", "ph",
+            "temperature", "humidity", "rainfall",
+            "irrigation", "fertilizer"
+        ])
+        df.to_csv(FILE_PATH, index=False)
+
+
+def load_data():
+    """Load CSV into DataFrame"""
+    try:
+        ensure_file()
+        return pd.read_csv(FILE_PATH)
+    except Exception as e:
+        print("Error loading file:", e)
+        return pd.DataFrame()
+
+
+def save_data(df):
+    """Save DataFrame to CSV"""
+    try:
+        df.to_csv(FILE_PATH, index=False)
+    except Exception as e:
+        print("Error saving file:", e)
